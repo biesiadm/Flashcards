@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Flashcards</string>
+    <string name="delete_button_description">Delete item</string>
+    <string name="correct_button_text">Correct</string>
+    <string name="incorrect_button_text">Incorrect</string>
+    <string name="new_package_label">Package name</string>
+    <string name="add_package_button">Create new package</string>
+</resources>

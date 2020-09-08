@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="flashcardsPackage"
+            type="com.example.flashcards.database.FlashcardsPackage" />
+        
+        <variable
+            name="clickListener"
+            type="com.example.flashcards.menu.FlashcardsPackageListener" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(flashcardsPackage)}">
+
+        <TextView
+            android:id="@+id/cards_quantity"
+            android:layout_width="64dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:textAlignment="center"
+            android:textSize="36sp"
+            app:flashcardsPackageCardsQuantity="@{flashcardsPackage}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="3" />
+
+        <TextView
+            android:id="@+id/package_title"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            app:flashcardsPackageTitle="@{flashcardsPackage}"
+            app:layout_constraintEnd_toStartOf="@+id/delete_button"
+            app:layout_constraintStart_toEndOf="@+id/cards_quantity"
+            app:layout_constraintTop_toTopOf="@+id/cards_quantity"
+            tools:text="Wednesday" />
+
+        <ImageButton
+            android:id="@+id/delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/delete_button_description"
+            android:onClick="@{() -> clickListener.onDelete(flashcardsPackage)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_delete" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

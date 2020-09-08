@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/flashcardsMenuFragment">
+
+    <fragment
+        android:id="@+id/flashcardsMenuFragment"
+        android:name="com.example.flashcards.menu.FlashcardsMenuFragment"
+        android:label="FlashcardsMenuFragment" >
+        <action
+            android:id="@+id/action_flashcardsMenuFragment_to_flashcardsPackageFragment"
+            app:destination="@id/flashcardsPackageFragment"
+            app:popUpTo="@id/flashcardsMenuFragment" />
+        <action
+            android:id="@+id/action_flashcardsMenuFragment_to_flashcardsGroupCreatorFragment"
+            app:destination="@id/flashcardsGroupCreatorFragment"
+            app:popUpTo="@id/flashcardsMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/flashcardsPackageFragment"
+        android:name="com.example.flashcards.flashcardspackage.FlashcardsPackageFragment"
+        android:label="flashcards_package_fragment"
+        tools:layout="@layout/flashcards_package_fragment" >
+        <argument
+            android:name="flashcardsGroupKey"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_flashcardsPackageFragment_to_flashcardsMenuFragment"
+            app:destination="@id/flashcardsMenuFragment"
+            app:popUpTo="@id/flashcardsMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/flashcardsGroupCreatorFragment"
+        android:name="com.example.flashcards.groupcreator.FlashcardsGroupCreatorFragment"
+        android:label="FlashcardsGroupCreatorFragment" >
+        <action
+            android:id="@+id/action_flashcardsGroupCreatorFragment_to_flashcardsMenuFragment"
+            app:destination="@id/flashcardsMenuFragment"
+            app:popUpTo="@id/flashcardsMenuFragment" />
+    </fragment>
+</navigation>
