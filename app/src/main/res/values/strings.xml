@@ -5,4 +5,8 @@
     <string name="incorrect_button_text">Incorrect</string>
     <string name="new_package_label">Package name</string>
     <string name="add_package_button">Create new package</string>
+    <string name="add_button_description">Add new flashcards</string>
+    <string name="front_side_label">Front side</string>
+    <string name="back_side_label">Back side</string>
+    <string name="add_flashcard">Add flashcard</string>
 </resources>

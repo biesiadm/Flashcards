@@ -16,7 +16,7 @@ suspend fun prepopulateDb(database: FlashcardsDatabase) {
 
     dao.insertGroup(englishWordsGroup)
     var groupInDb = dao.getLatestGroup()
-    dao.insertFlashcards(groupInDb, englishWords)
+    dao.insertFlashcards(groupInDb.groupId, englishWords)
 
     val multiplicationsGroup = FlashcardsGroup(title = "Multiplication table")
     val simpleMultiplications = listOf<Flashcard>(
@@ -28,5 +28,5 @@ suspend fun prepopulateDb(database: FlashcardsDatabase) {
 
     dao.insertGroup(multiplicationsGroup)
     groupInDb = dao.getLatestGroup()
-    dao.insertFlashcards(groupInDb, simpleMultiplications)
+    dao.insertFlashcards(groupInDb.groupId, simpleMultiplications)
 }

@@ -13,9 +13,13 @@ import com.example.flashcards.R
 import com.example.flashcards.database.FlashcardsDatabase
 import com.example.flashcards.databinding.FlashcardsMenuFragmentBinding
 
+private val EMPTY_PACKAGE_TOAST_TEXT = "Add some flashcards first."
+
 class FlashcardsMenuFragment : Fragment() {
 
     private lateinit var flashcardsMenuViewModel: FlashcardsMenuViewModel
+
+    private lateinit var adapter: FlashcardsPackageAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,18 +41,13 @@ class FlashcardsMenuFragment : Fragment() {
         flashcardsMenuViewModel = ViewModelProvider(this, viewModelFactory)
             .get(FlashcardsMenuViewModel::class.java)
 
-        val adapter = FlashcardsPackageAdapter(FlashcardsPackageListener(
-            { groupId ->
-                Toast.makeText(context, "$groupId clicked", Toast.LENGTH_SHORT).show()
-
-                flashcardsMenuViewModel.onFlashcardsPackageClicked(groupId)
-            },
-            { groupId ->
-                Toast.makeText(context, "$groupId deleted", Toast.LENGTH_SHORT).show()
-
-                flashcardsMenuViewModel.onDelete(groupId)
-            }
-        ))
+        adapter = FlashcardsPackageAdapter(
+            FlashcardsPackageListener(
+                onClickPackage(),
+                onDeletePackage(),
+                onAddFlashcard()
+            )
+        )
 
         binding.packagesList.adapter = adapter
 
@@ -56,6 +55,24 @@ class FlashcardsMenuFragment : Fragment() {
 
         binding.flashcardsMenuViewModel = flashcardsMenuViewModel
 
+        createObservers()
+
+        return binding.root
+    }
+
+    private fun onClickPackage() = { groupId: Long ->
+        flashcardsMenuViewModel.navigateToPackage(groupId)
+    }
+
+    private fun onDeletePackage() = { groupId: Long ->
+        flashcardsMenuViewModel.onDelete(groupId)
+    }
+
+    private fun onAddFlashcard() = { groupId: Long ->
+        flashcardsMenuViewModel.onAddFlashcardButtonClicked(groupId)
+    }
+
+    private fun createObservers() {
         flashcardsMenuViewModel.flashcardsPackages.observe(viewLifecycleOwner,
             {
                 it?.let { adapter.submitList(it) }
@@ -85,6 +102,25 @@ class FlashcardsMenuFragment : Fragment() {
                 }
             })
 
-        return binding.root
+        flashcardsMenuViewModel.navigateToFlashcardCreator.observe(viewLifecycleOwner,
+            { groupId ->
+                groupId?.let {
+                    this.findNavController().navigate(
+                        FlashcardsMenuFragmentDirections
+                            .actionFlashcardsMenuFragmentToFlashcardCreatorFragment(groupId)
+                    )
+
+                    flashcardsMenuViewModel.onFlashcardCreatorNavigated()
+                }
+            })
+
+        flashcardsMenuViewModel.displayEmptyPackageToast.observe(viewLifecycleOwner,
+            {
+                if (it == true) {
+                    Toast.makeText(context, EMPTY_PACKAGE_TOAST_TEXT, Toast.LENGTH_LONG).show()
+
+                    flashcardsMenuViewModel.onDisplayEmptyPackageToastDone()
+                }
+            })
     }
 }

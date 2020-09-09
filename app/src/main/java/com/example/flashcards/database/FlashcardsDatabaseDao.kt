@@ -9,18 +9,27 @@ import androidx.room.Transaction
 @Dao
 abstract class FlashcardsDatabaseDao {
 
-    suspend fun insertFlashcards(flashcardsGroup: FlashcardsGroup, flashcards: List<Flashcard>) {
+    suspend fun insertFlashcards(groupId: Long, flashcards: List<Flashcard>) {
         for (flashcard in flashcards) {
-            flashcard.flashcardGroupId = flashcardsGroup.groupId
+            flashcard.flashcardGroupId = groupId
         }
 
         _insertAll(flashcards)
+    }
+
+    suspend fun insertFlashcard(groupId: Long, flashcard: Flashcard) {
+        flashcard.flashcardGroupId = groupId
+
+        _insert(flashcard)
     }
 
     suspend fun deleteFlashcardsPackage(groupId: Long) {
         _deleteFlashcards(groupId)
         _deleteFlashcardsGroup(groupId)
     }
+
+    @Insert
+    abstract suspend fun _insert(flashcard: Flashcard)
 
     @Insert
     abstract suspend fun _insertAll(flashcards: List<Flashcard>)
@@ -49,4 +58,7 @@ abstract class FlashcardsDatabaseDao {
 
     @Query("SELECT * FROM Flashcard WHERE flashcardGroupId = :groupId")
     abstract fun getFlashcardsWithId(groupId: Long): LiveData<List<Flashcard>>
+
+    @Query("SELECT title FROM FlashcardsGroup WHERE groupId = :groupId")
+    abstract fun getFlashcardsPackageTitle(groupId: Long): LiveData<String>
 }

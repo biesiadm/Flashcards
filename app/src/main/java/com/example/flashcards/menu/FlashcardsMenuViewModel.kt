@@ -22,7 +22,7 @@ class FlashcardsMenuViewModel(dataSource: FlashcardsDatabaseDao) : ViewModel() {
         get() = _navigateToFlashcardsPackage
 
 
-    fun onFlashcardsPackageClicked(id: Long) {
+    fun onNavigateToFlashcardsPackage(id: Long) {
         _navigateToFlashcardsPackage.value = id
     }
 
@@ -34,12 +34,52 @@ class FlashcardsMenuViewModel(dataSource: FlashcardsDatabaseDao) : ViewModel() {
     val navigateToFlashcardsGroupCreator: LiveData<Boolean?>
         get() = _navigateToFlashcardsGroupCreator
 
-    fun onAddButtonClicked() {
+    fun onAddPackageButtonClicked() {
         _navigateToFlashcardsGroupCreator.value = true
     }
 
     fun onFlashcardsGroupCreatorNavigated() {
         _navigateToFlashcardsGroupCreator.value = null
+    }
+
+    private val _navigateToFlashcardCreator = MutableLiveData<Long>()
+    val navigateToFlashcardCreator: LiveData<Long>
+        get() = _navigateToFlashcardCreator
+
+    fun onAddFlashcardButtonClicked(id: Long) {
+        _navigateToFlashcardCreator.value = id
+    }
+
+    fun onFlashcardCreatorNavigated() {
+        _navigateToFlashcardCreator.value = null
+    }
+
+    /**
+     * Toast for empty packages.
+     */
+
+    private val _displayEmptyPackageToast = MutableLiveData<Boolean?>()
+    val displayEmptyPackageToast: LiveData<Boolean?>
+        get() = _displayEmptyPackageToast
+
+    fun onDisplayEmptyPackageToast() {
+        _displayEmptyPackageToast.value = true
+    }
+
+    fun onDisplayEmptyPackageToastDone() {
+        _displayEmptyPackageToast.value = null
+    }
+
+    fun navigateToPackage(groupId: Long) {
+        viewModelScope.launch {
+            val flashcards = database.getFlashcards(groupId)
+
+            if (flashcards.isEmpty()) {
+                onDisplayEmptyPackageToast()
+            } else {
+                onNavigateToFlashcardsPackage(groupId)
+            }
+        }
     }
 
     /**

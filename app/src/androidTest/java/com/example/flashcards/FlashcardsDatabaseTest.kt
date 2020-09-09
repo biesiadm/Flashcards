@@ -89,7 +89,7 @@ class FlashcardsDatabaseTest {
         flashcardsDao.insertGroup(group)
 
         for (i in 0..10) {
-            flashcardsDao.insertFlashcards(group, listOf(Flashcard(front = i.toString())))
+            flashcardsDao.insertFlashcards(group.groupId, listOf(Flashcard(front = i.toString())))
         }
 
         val groupDb = flashcardsDao.getFlashcards(0)

@@ -61,11 +61,15 @@ class FlashcardsPackageDiffCallback : DiffUtil.ItemCallback<FlashcardsPackage>()
 
 class FlashcardsPackageListener(
     val clickListener: (groupId: Long) -> Unit,
-    val deleteListener: (groupId: Long) -> Unit
+    val deleteListener: (groupId: Long) -> Unit,
+    val addListener: (groupId: Long) -> Unit
 ) {
     fun onClick(flashcardsPackage: FlashcardsPackage) =
         clickListener(flashcardsPackage.group.groupId)
 
     fun onDelete(flashcardsPackage: FlashcardsPackage) =
         deleteListener(flashcardsPackage.group.groupId)
+
+    fun onAdd(flashcardsPackage: FlashcardsPackage) =
+        addListener(flashcardsPackage.group.groupId)
 }

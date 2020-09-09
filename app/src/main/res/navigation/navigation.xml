@@ -17,6 +17,10 @@
             android:id="@+id/action_flashcardsMenuFragment_to_flashcardsGroupCreatorFragment"
             app:destination="@id/flashcardsGroupCreatorFragment"
             app:popUpTo="@id/flashcardsMenuFragment" />
+        <action
+            android:id="@+id/action_flashcardsMenuFragment_to_flashcardCreatorFragment"
+            app:destination="@id/flashcardCreatorFragment"
+            app:popUpTo="@id/flashcardsMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/flashcardsPackageFragment"
@@ -39,5 +43,17 @@
             android:id="@+id/action_flashcardsGroupCreatorFragment_to_flashcardsMenuFragment"
             app:destination="@id/flashcardsMenuFragment"
             app:popUpTo="@id/flashcardsMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/flashcardCreatorFragment"
+        android:name="com.example.flashcards.flashcardcreator.FlashcardCreatorFragment"
+        android:label="FlashcardCreatorFragment" >
+        <action
+            android:id="@+id/action_flashcardCreatorFragment_to_flashcardsMenuFragment"
+            app:destination="@id/flashcardsMenuFragment"
+            app:popUpTo="@id/flashcardsMenuFragment" />
+        <argument
+            android:name="flashcardsGroupKey"
+            app:argType="long" />
     </fragment>
 </navigation>
