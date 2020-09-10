@@ -47,8 +47,6 @@ class FlashcardCreatorFragment : Fragment() {
         flashcardCreatorViewModel.packageTitle.observe(viewLifecycleOwner,
             {
                 it?.let {
-                    binding.packageTitle.text = it
-
                     setActionBar(
                         activity,
                         getString(R.string.title_flashcard_creator),

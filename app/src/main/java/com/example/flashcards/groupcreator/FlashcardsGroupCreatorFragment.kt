@@ -15,6 +15,10 @@ import com.example.flashcards.databinding.FlashcardsGroupCreatorFragmentBinding
 import com.example.flashcards.resetActionBar
 import com.example.flashcards.setActionBar
 
+private const val MAX_PACKAGE_TITLE_LENGTH = 25
+private const val EMPTY_PACKAGE_TITLE_TOAST = "Enter package name"
+private const val TO_LONG_PACKAGE_TITLE_TOAST = "Package name can be up to $MAX_PACKAGE_TITLE_LENGTH letters"
+
 class FlashcardsGroupCreatorFragment : Fragment() {
 
     private lateinit var flashcardsGroupCreatorViewModel: FlashcardsGroupCreatorViewModel
@@ -47,15 +51,23 @@ class FlashcardsGroupCreatorFragment : Fragment() {
 
         flashcardsGroupCreatorViewModel.createNewPackageEvent.observe(viewLifecycleOwner, {
             if (it == true) {
-                if (binding.newPackageName.text.toString().isNotBlank()) {
-                    flashcardsGroupCreatorViewModel.addNewPackage(binding.newPackageName.text.toString())
+                val newPackageName = binding.newPackageName.text.toString()
 
-                    this.findNavController().navigate(
-                        FlashcardsGroupCreatorFragmentDirections
-                            .actionFlashcardsGroupCreatorFragmentToFlashcardsMenuFragment()
-                    )
-                } else {
-                    Toast.makeText(context, "Enter package name", Toast.LENGTH_SHORT).show()
+                when {
+                    newPackageName.isBlank() -> {
+                        Toast.makeText(context, EMPTY_PACKAGE_TITLE_TOAST, Toast.LENGTH_SHORT).show()
+                    }
+                    newPackageName.length > MAX_PACKAGE_TITLE_LENGTH -> {
+                        Toast.makeText(context, TO_LONG_PACKAGE_TITLE_TOAST, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        flashcardsGroupCreatorViewModel.addNewPackage(newPackageName)
+
+                        this.findNavController().navigate(
+                            FlashcardsGroupCreatorFragmentDirections
+                                .actionFlashcardsGroupCreatorFragmentToFlashcardsMenuFragment()
+                        )
+                    }
                 }
 
                 flashcardsGroupCreatorViewModel.onCreateNewPackageDone()

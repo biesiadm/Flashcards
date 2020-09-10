@@ -24,6 +24,8 @@ class FlashcardsMenuFragment : Fragment() {
 
     private lateinit var adapter: FlashcardsPackageAdapter
 
+    private lateinit var binding: FlashcardsMenuFragmentBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,7 +33,7 @@ class FlashcardsMenuFragment : Fragment() {
 
         resetActionBar(activity)
 
-        val binding: FlashcardsMenuFragmentBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.flashcards_menu_fragment,
             container, false
         )
@@ -135,7 +137,7 @@ class FlashcardsMenuFragment : Fragment() {
             { groupId ->
                 groupId?.let {
                     val deleteSnackbar = Snackbar.make(
-                        requireActivity().findViewById(android.R.id.content),
+                        binding.coordinatorLayout,
                         getString(R.string.delete_snackbar_text), Snackbar.LENGTH_SHORT
                     )
                     deleteSnackbar.setAction(R.string.ok_string) {

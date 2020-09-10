@@ -48,7 +48,7 @@
             app:layout_constraintEnd_toStartOf="@+id/add_flashcard"
             app:layout_constraintStart_toEndOf="@+id/cards_quantity"
             app:layout_constraintTop_toTopOf="@+id/cards_quantity"
-            tools:text="Wednesday" />
+            tools:text="1234567890123456789012345" />
 
         <ImageButton
             android:id="@+id/delete_button"

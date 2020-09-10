@@ -47,7 +47,7 @@ abstract class FlashcardsDatabaseDao {
     abstract suspend fun _deleteFlashcardsGroup(groupId: Long)
 
     @Query("SELECT * FROM FlashcardsGroup ORDER BY groupId DESC LIMIT 1")
-    abstract suspend fun getLatestGroup(): FlashcardsGroup
+    abstract suspend fun getLatestGroup(): FlashcardsGroup?
 
     @Query("SELECT * FROM Flashcard WHERE flashcardGroupId = :groupId")
     abstract suspend fun getFlashcardsAtMomentWithId(groupId: Long): MutableList<Flashcard>
