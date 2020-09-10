@@ -11,6 +11,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.flashcards.R
 import com.example.flashcards.database.FlashcardsDatabase
 import com.example.flashcards.databinding.FlashcardsPackageFragmentBinding
+import com.example.flashcards.resetActionBar
+import com.example.flashcards.setActionBar
+import com.example.flashcards.setActionBarSubtitle
 
 class FlashcardsPackageFragment : Fragment() {
 
@@ -21,6 +24,8 @@ class FlashcardsPackageFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        resetActionBar(activity)
+
         binding = DataBindingUtil.inflate(
             inflater, R.layout.flashcards_package_fragment, container, false
         )
@@ -39,6 +44,12 @@ class FlashcardsPackageFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
+        createObservers()
+
+        return binding.root
+    }
+
+    private fun createObservers() {
         flashcardsPackageViewModel.changeFlashcardSide.observe(viewLifecycleOwner, {
             if (it == true) {
                 flashcardsPackageViewModel.changeSide()
@@ -54,6 +65,14 @@ class FlashcardsPackageFragment : Fragment() {
         flashcardsPackageViewModel.currentFlashcard.observe(viewLifecycleOwner, {
             flashcardsPackageViewModel.currentSide.value?.let {
                 displaySide(it)
+
+                setActionBarSubtitle(
+                    activity,
+                    getString(
+                        R.string.subtitle_flashcards_package,
+                        flashcardsPackageViewModel.getFlashcardsLeftSize()
+                    )
+                )
             }
         })
 
@@ -68,7 +87,21 @@ class FlashcardsPackageFragment : Fragment() {
             }
         })
 
-        return binding.root
+        flashcardsPackageViewModel.packageTitle.observe(viewLifecycleOwner, {
+            it?.let {
+                setActionBar(activity, getString(R.string.title_flashcards_package, it))
+
+                if (flashcardsPackageViewModel.flashcardsListInitialised) {
+                    setActionBarSubtitle(
+                        activity,
+                        getString(
+                            R.string.subtitle_flashcards_package,
+                            flashcardsPackageViewModel.getFlashcardsLeftSize()
+                        )
+                    )
+                }
+            }
+        })
     }
 
     private fun displaySide(side: Side) {

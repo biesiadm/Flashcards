@@ -20,9 +20,14 @@ class FlashcardsPackageViewModel(
 
     val flashcards = database.getFlashcardsWithId(flashcardsGroupKey)
 
-    private lateinit var flashcardsList: MutableList<Flashcard>
+    val packageTitle = database.getFlashcardsPackageTitle(flashcardsGroupKey)
+
+    lateinit var flashcardsList: MutableList<Flashcard>
+    var flashcardsListInitialised = false
+    fun getFlashcardsLeftSize() = flashcardsList.size + 1
 
     private val _currentFlashcard = MutableLiveData<Flashcard>()
+
     val currentFlashcard: LiveData<Flashcard>
         get() = _currentFlashcard
 
@@ -79,6 +84,8 @@ class FlashcardsPackageViewModel(
 
             flashcardsList.shuffle()
             nextFlashcard()
+
+            flashcardsListInitialised = true
         }
     }
 

@@ -12,8 +12,11 @@ import androidx.navigation.fragment.findNavController
 import com.example.flashcards.R
 import com.example.flashcards.database.FlashcardsDatabase
 import com.example.flashcards.databinding.FlashcardsMenuFragmentBinding
+import com.example.flashcards.resetActionBar
+import com.example.flashcards.setActionBar
+import com.google.android.material.snackbar.Snackbar
 
-private val EMPTY_PACKAGE_TOAST_TEXT = "Add some flashcards first."
+private const val EMPTY_PACKAGE_TOAST_TEXT = "Add some flashcards first."
 
 class FlashcardsMenuFragment : Fragment() {
 
@@ -25,6 +28,8 @@ class FlashcardsMenuFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        resetActionBar(activity)
 
         val binding: FlashcardsMenuFragmentBinding = DataBindingUtil.inflate(
             inflater, R.layout.flashcards_menu_fragment,
@@ -57,6 +62,8 @@ class FlashcardsMenuFragment : Fragment() {
 
         createObservers()
 
+        setActionBar(activity, getString(R.string.title_menu))
+
         return binding.root
     }
 
@@ -65,7 +72,8 @@ class FlashcardsMenuFragment : Fragment() {
     }
 
     private fun onDeletePackage() = { groupId: Long ->
-        flashcardsMenuViewModel.onDelete(groupId)
+//        flashcardsMenuViewModel.onDelete(groupId)
+        flashcardsMenuViewModel.onShowSnackbar(groupId)
     }
 
     private fun onAddFlashcard() = { groupId: Long ->
@@ -120,6 +128,22 @@ class FlashcardsMenuFragment : Fragment() {
                     Toast.makeText(context, EMPTY_PACKAGE_TOAST_TEXT, Toast.LENGTH_LONG).show()
 
                     flashcardsMenuViewModel.onDisplayEmptyPackageToastDone()
+                }
+            })
+
+        flashcardsMenuViewModel.showSnackbarEvent.observe(viewLifecycleOwner,
+            { groupId ->
+                groupId?.let {
+                    val deleteSnackbar = Snackbar.make(
+                        requireActivity().findViewById(android.R.id.content),
+                        getString(R.string.delete_snackbar_text), Snackbar.LENGTH_SHORT
+                    )
+                    deleteSnackbar.setAction(R.string.ok_string) {
+                        flashcardsMenuViewModel.onDelete(groupId)
+                    }
+                    deleteSnackbar.show()
+
+                    flashcardsMenuViewModel.onShowSnackbarDone()
                 }
             })
     }

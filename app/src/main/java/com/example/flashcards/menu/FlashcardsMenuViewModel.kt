@@ -86,6 +86,18 @@ class FlashcardsMenuViewModel(dataSource: FlashcardsDatabaseDao) : ViewModel() {
      * Executes when 'X' button is clicked.
      */
 
+    private val _showSnackbarEvent = MutableLiveData<Long>()
+    val showSnackbarEvent: LiveData<Long>
+        get() = _showSnackbarEvent
+
+    fun onShowSnackbar(groupId: Long) {
+        _showSnackbarEvent.value = groupId
+    }
+
+    fun onShowSnackbarDone() {
+        _showSnackbarEvent.value = null
+    }
+
     fun onDelete(groupId: Long) {
         viewModelScope.launch {
             delete(groupId)

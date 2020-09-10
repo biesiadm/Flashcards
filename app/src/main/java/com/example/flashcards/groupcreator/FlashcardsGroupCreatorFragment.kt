@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.flashcards.R
 import com.example.flashcards.database.FlashcardsDatabase
 import com.example.flashcards.databinding.FlashcardsGroupCreatorFragmentBinding
+import com.example.flashcards.resetActionBar
+import com.example.flashcards.setActionBar
 
 class FlashcardsGroupCreatorFragment : Fragment() {
 
@@ -21,6 +23,9 @@ class FlashcardsGroupCreatorFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        resetActionBar(activity)
+
         val binding: FlashcardsGroupCreatorFragmentBinding = DataBindingUtil.inflate(
             inflater, R.layout.flashcards_group_creator_fragment,
             container, false
@@ -56,6 +61,8 @@ class FlashcardsGroupCreatorFragment : Fragment() {
                 flashcardsGroupCreatorViewModel.onCreateNewPackageDone()
             }
         })
+
+        setActionBar(activity, getString(R.string.title_flashcards_group_creator))
 
         return binding.root
     }

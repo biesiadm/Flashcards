@@ -9,4 +9,12 @@
     <string name="front_side_label">Front side</string>
     <string name="back_side_label">Back side</string>
     <string name="add_flashcard">Add flashcard</string>
+    <string name="title_menu">Flashcards packages</string>
+    <string name="title_flashcards_package">%1$s</string>
+    <string name="subtitle_flashcards_package">Flashcards left: %1$d</string>
+    <string name="title_flashcards_group_creator">Create new package</string>
+    <string name="title_flashcard_creator">Create new flashcards</string>
+    <string name="subtitle_flashcard_creator">Package: %1$s</string>
+    <string name="delete_snackbar_text">Package will be deleted permanently</string>
+    <string name="ok_string">OK</string>
 </resources>

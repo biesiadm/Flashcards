@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.flashcards.R
 import com.example.flashcards.database.FlashcardsDatabase
 import com.example.flashcards.databinding.FlashcardCreatorFragmentBinding
+import com.example.flashcards.resetActionBar
+import com.example.flashcards.setActionBar
 
 class FlashcardCreatorFragment : Fragment() {
 
@@ -20,6 +22,9 @@ class FlashcardCreatorFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        resetActionBar(activity)
+
         val binding: FlashcardCreatorFragmentBinding = DataBindingUtil.inflate(
             inflater, R.layout.flashcard_creator_fragment, container, false
         )
@@ -43,6 +48,12 @@ class FlashcardCreatorFragment : Fragment() {
             {
                 it?.let {
                     binding.packageTitle.text = it
+
+                    setActionBar(
+                        activity,
+                        getString(R.string.title_flashcard_creator),
+                        getString(R.string.subtitle_flashcard_creator, it)
+                    )
                 }
             })
 
