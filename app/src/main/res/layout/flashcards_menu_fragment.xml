@@ -25,7 +25,7 @@
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> flashcardsMenuViewModel.onAddPackageButtonClicked()}"
-            app:backgroundTint="#D7F44336"
+            app:backgroundTint="@color/colorPrimary"
             app:srcCompat="@android:drawable/ic_input_add" />
 
         <androidx.recyclerview.widget.RecyclerView

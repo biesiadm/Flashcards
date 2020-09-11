@@ -74,7 +74,6 @@ class FlashcardsMenuFragment : Fragment() {
     }
 
     private fun onDeletePackage() = { groupId: Long ->
-//        flashcardsMenuViewModel.onDelete(groupId)
         flashcardsMenuViewModel.onShowSnackbar(groupId)
     }
 
@@ -138,7 +137,7 @@ class FlashcardsMenuFragment : Fragment() {
                 groupId?.let {
                     val deleteSnackbar = Snackbar.make(
                         binding.coordinatorLayout,
-                        getString(R.string.delete_snackbar_text), Snackbar.LENGTH_SHORT
+                        getString(R.string.delete_snackbar_text), Snackbar.LENGTH_LONG
                     )
                     deleteSnackbar.setAction(R.string.ok_string) {
                         flashcardsMenuViewModel.onDelete(groupId)
